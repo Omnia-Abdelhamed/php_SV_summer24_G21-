@@ -20,6 +20,11 @@
 @endsection
 @section('content')
 <div class="card">
+    @if(Session::has('msg'))
+    <div class="alert alert-success">
+        {{ Session::get('msg') }}
+    </div>
+    @endif
     <div class="card-body">
         <h5 class="card-title">Basic Datatable</h5>
         <div class="table-responsive">
@@ -29,23 +34,27 @@
         >
             <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>$320,800</td>
-            </tr>
+                @foreach ($students as $student)
+                <tr>
+                    <td>{{ $student->id }}</td>
+                    <td>{{ $student->name }}</td>
+                    <td>
+                        <a href="#" class="btn btn-outline-primary">show</a>
+                        <a href="{{ route('admin.students.edit',$student->id) }}" class="btn btn-outline-success">edit</a>
+                        <form action="{{ route('admin.students.destroy',$student->id) }}" method="post" class="d-inline">
+                            @csrf
+                            @method('delete')
+                            <input type="submit" value="delete" class="btn btn-danger">
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

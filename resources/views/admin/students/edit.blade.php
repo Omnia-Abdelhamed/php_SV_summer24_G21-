@@ -34,8 +34,9 @@
         {{ Session::get('msg') }}
     </div>
     @endif
-    <form class="form-horizontal" action="{{ route('admin.students.store') }}" enctype="multipart/form-data" method="post">
+    <form class="form-horizontal" action="{{ route('admin.students.update',$student->id) }}" enctype="multipart/form-data" method="post">
       @csrf
+      @method('put')
         <div class="card-body">
         <div class="form-group row">
           <label
@@ -50,7 +51,7 @@
               id="fname"
               placeholder="First Name Here"
               name="name"
-              value="{{ old('name') }}"
+              value="{{ $student->name }}"
             />
           </div>
         </div>
@@ -67,7 +68,7 @@
               id="lname"
               placeholder="Last Name Here"
               name="email"
-              value="{{ old('email') }}"
+              value="{{ $student->email }}"
             />
           </div>
         </div>
@@ -84,7 +85,7 @@
               id="email"
               placeholder="Email Here"
               name="phone"
-              value="{{ old('phone') }}"
+              value="{{ $student->phone }}"
             />
           </div>
         </div>
@@ -97,7 +98,7 @@
           <div class="col-sm-9">
             <select class="form-control" name="department_id">
                 @foreach ($departments as $department)
-                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                <option value="{{ $department->id }}" @if($student->id == $department->id) selected @endif>{{ $department->name }}</option>
                 @endforeach
             </select>
           </div>
@@ -106,7 +107,7 @@
       <div class="border-top">
         <div class="card-body">
           <button type="submit" class="btn btn-primary">
-            Add
+            Update
           </button>
         </div>
       </div>

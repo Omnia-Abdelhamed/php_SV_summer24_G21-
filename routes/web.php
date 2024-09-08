@@ -26,5 +26,9 @@ Route::prefix('/admin')->name('admin.')->group(function(){
         Route::get('/students','index')->name('index');
         Route::get('/students/create','create')->name('create');
         Route::get('/students/{id}','show')->where(['id'=>'[0-9]+'])->name('show');
+        Route::post('/students','store')->name('store');
+        Route::delete('/students/{id}','destroy')->name('destroy');
+        Route::get('/students/{id}/edit','edit')->name('edit');
+        Route::put('/students/{id}','update')->name('update');
     });
 });
