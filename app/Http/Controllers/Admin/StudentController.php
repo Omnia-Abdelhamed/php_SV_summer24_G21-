@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Student;
+use App\Models\Department;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StudentRequest;
-use App\Models\Department;
-use App\Models\Student;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -21,6 +22,11 @@ class StudentController extends Controller
     public function store(StudentRequest $request){ // name, email, phone, department
 
         $data=$request->validated();
+        if($request->hasFile('photo')){
+            $photoName=$request->file('photo')->getClientOriginalName();
+            $photo=$request->file('photo')->storeAs('images',$photoName); //tmp , move_uploaded_files
+            $data['photo']=$photo;
+        }
         Student::create($data);
         return redirect()->back()->with('msg','Added..');
     }
@@ -44,6 +50,12 @@ class StudentController extends Controller
 
     public function destroy($id){
         $student=Student::findorfail($id);
+        if(!empty($student->photo) && Storage::exists($student->photo)){
+            Storage::delete($student->photo);
+            if(empty(Storage::files('images'))){
+                Storage::deleteDirectory('images');
+            }
+        }
         $student->delete();
         return redirect()->back()->with('msg','Deleted..');
     }

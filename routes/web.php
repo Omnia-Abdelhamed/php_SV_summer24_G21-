@@ -2,13 +2,14 @@
 
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 // Route::get('/home',HomeController::class);
 // Route::prefix('/admin')->name('admin.')->group(function(){
 //     Route::get('/',function(){
@@ -20,7 +21,14 @@ Route::get('/', function () {
 //     });
 // });
 
-Route::prefix('/admin')->name('admin.')->group(function(){
+Route::middleware('guest')->controller(AuthController::class)->group(function(){
+    Route::get('/login','login')->name('login');
+    Route::get('/register','register')->name('register');
+    Route::get('/logout','logout')->name('logout')->withoutMiddleware('guest');
+    Route::post('/handleLogin','handleLogin')->name('handleLogin');
+    Route::post('/handleRegister','handleRegister')->name('handleRegister');
+});
+Route::middleware(['auth','IsLogin'])->prefix('/admin')->name('admin.')->group(function(){
     Route::get('/',AdminHomeController::class)->name('home');
     Route::controller(StudentController::class)->name('students.')->group(function(){
         Route::get('/students','index')->name('index');

@@ -89,6 +89,20 @@
           </div>
         </div>
         <div class="form-group row">
+            <label
+              for="email"
+              class="col-sm-3 text-end control-label col-form-label"
+              >Photo</label
+            >
+            <div class="col-sm-9">
+              <input
+                type="file"
+                class="form-control"
+                name="photo"
+              />
+            </div>
+          </div>
+        <div class="form-group row">
           <label
             for="fname"
             class="col-sm-3 text-end control-label col-form-label"

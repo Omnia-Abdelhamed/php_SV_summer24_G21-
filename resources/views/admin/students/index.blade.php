@@ -36,6 +36,7 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Photo</th>
                 <th></th>
             </tr>
             </thead>
@@ -44,6 +45,7 @@
                 <tr>
                     <td>{{ $student->id }}</td>
                     <td>{{ $student->name }}</td>
+                    <td><img src="{{ asset('storage')."/$student->photo" }}" width="70" height="70"></td>
                     <td>
                         <a href="#" class="btn btn-outline-primary">show</a>
                         <a href="{{ route('admin.students.edit',$student->id) }}" class="btn btn-outline-success">edit</a>

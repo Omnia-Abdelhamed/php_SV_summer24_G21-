@@ -6,9 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StudentRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+
     public function authorize(): bool
     {
         return true;
@@ -25,7 +23,8 @@ class StudentRequest extends FormRequest
             'name'=>['required'],
             'email'=>['required','email','unique:students,email'],
             'phone'=>['nullable','regex:/^(010|011|012|015)[0-9]{8}$/'],
-            'department_id'=>['integer']
+            'department_id'=>['integer'],
+            'photo'=>'nullable|mimes:png,jpg,jpeg'
         ];
     }
 
